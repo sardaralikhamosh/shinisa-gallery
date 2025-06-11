@@ -1,9 +1,11 @@
 <?php
 /*
-Plugin Name: Random Image Gallery
+Plugin Name: Shinisa Image Gallery
 Description: Display image galleries with random ordering option
 Version: 1.0
-Author: Your Name
+Author: Sardar Ali
+Plugin Url: https://shinisa.com
+Author Url: https://shinisa.com/sardaralikhamosh
 */
 
 // Security check
