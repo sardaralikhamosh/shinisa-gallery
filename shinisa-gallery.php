@@ -9,16 +9,49 @@ Author Url: https://shinisa.com/sardaralikhamosh
 */
 
 // Security check
-defined('ABSPATH') or die('No script kiddies please!');
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly
+}
 
-// Include necessary files
-require_once plugin_dir_path(__FILE__) . 'includes/shinisa-shortcode.php';
-require_once plugin_dir_path(__FILE__) . 'includes/shinisa-gallery-shortcode.php';
-require_once plugin_dir_path(__FILE__) . 'includes/admin-settings.php';
+// Activation checks
+register_activation_hook(__FILE__, 'shinisa_gallery_activate');
+function shinisa_gallery_activate() {
+    // Check WordPress version
+    if (version_compare(get_bloginfo('version'), '5.0', '<')) {
+        deactivate_plugins(plugin_basename(__FILE__));
+        wp_die(__('This plugin requires WordPress 5.0 or later!', 'shinisa-gallery'));
+    }
+}
+
+// Include necessary files with error handling
+$includes = [
+    'includes/gallery-shortcode.php',
+    'includes/shinisa-gallery-shortcode.php',
+    'includes/admin-settings.php'
+];
+
+foreach ($includes as $file) {
+    $path = plugin_dir_path(__FILE__) . $file;
+    if (file_exists($path)) {
+        require_once $path;
+    } else {
+        // Log error but don't prevent activation
+        error_log("Shinisa Gallery: Missing file - " . $file);
+    }
+}
 
 // Enqueue styles and scripts
-function rig_enqueue_assets() {
-    wp_enqueue_style('rig-gallery-style', plugins_url('assets/css/gallery-style.css', __FILE__));
-    wp_enqueue_script('rig-gallery-script', plugins_url('assets/js/gallery-script.js', __FILE__), array('jquery'), '1.0', true);
+function shinisa_gallery_enqueue_assets() {
+    wp_enqueue_style(
+        'shinisa-gallery-style', 
+        plugins_url('assets/css/gallery-style.css', __FILE__)
+    );
+    wp_enqueue_script(
+        'shinisa-gallery-script', 
+        plugins_url('assets/js/gallery-script.js', __FILE__), 
+        array('jquery'), 
+        '1.0', 
+        true
+    );
 }
-add_action('wp_enqueue_scripts', 'rig_enqueue_assets');
+add_action('wp_enqueue_scripts', 'shinisa_gallery_enqueue_assets');
