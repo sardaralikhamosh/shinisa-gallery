@@ -12,8 +12,8 @@ Author Url: https://shinisa.com/sardaralikhamosh
 defined('ABSPATH') or die('No script kiddies please!');
 
 // Include necessary files
-require_once plugin_dir_path(__FILE__) . 'includes/gallery-shortcode.php';
-require_once plugin_dir_path(__FILE__) . 'includes/random-gallery-shortcode.php';
+require_once plugin_dir_path(__FILE__) . 'includes/shinisa-shortcode.php';
+require_once plugin_dir_path(__FILE__) . 'includes/shinisa-gallery-shortcode.php';
 require_once plugin_dir_path(__FILE__) . 'includes/admin-settings.php';
 
 // Enqueue styles and scripts
